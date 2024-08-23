@@ -1,0 +1,72 @@
+﻿@page "/"
+@using Blazor.Services
+@using Microsoft.AspNetCore.Identity
+@using AuthenticationApi.Database
+@inject AuthenticationManager AuthenticationManager
+@inject IHttpClientFactory HttpClientFactory
+
+
+<EditForm Model="LoginModel" FormName="LoginModel" OnValidSubmit="@Login">
+    <InputText @bind-Value="LoginModel.Email" Placeholder="Email" class="form-control"/>
+    <InputText @bind-Value="LoginModel.Password" Placeholder="Password" class="form-control" type="password"/>
+    Use Cookies?
+    <InputCheckbox @bind-Value="LoginModel.UseCookies"/>
+    Use Session Cookies?
+    <InputCheckbox @bind-Value="LoginModel.UseSessionCookies"/>
+    <button type="submit">Log in</button>
+    <button @onclick="Logout">Log out</button>
+</EditForm>
+
+<a href="/NeedsAuth">AuthorizedOnly</a>
+
+@if (_token is not null)
+{
+    <p>Token: @_token.AccessToken</p>
+    <br />
+    <p>Expires in: @_token.ExpiresIn</p>
+    <br />
+    <p>Refresh token: @_token.RefreshToken</p>
+    <br />
+    <p>Type: @_token.TokenType</p>
+    <br />
+}
+
+<br/>
+<button @onclick="HelloWorld">Hello World></button>
+<p>@_hello</p>
+
+@code {
+
+    public PostLoginModel LoginModel { get; set; } = new ();
+    private Token? _token;
+    private string _hello = "Not authorized";
+
+    private async Task Login()
+    {
+        _token = await AuthenticationManager.LogInAsync(LoginModel.Email, LoginModel.Password, LoginModel.UseCookies, LoginModel.UseSessionCookies);
+    }
+
+    private async Task Logout()
+    {
+        await AuthenticationManager.LogOutAsync();
+        _token = null;
+        _hello = "Not authorized";
+    }
+
+    private async Task HelloWorld()
+    {
+        var client = HttpClientFactory.CreateClient("Auth");
+
+        var response = await client.GetAsync("api/hello-world");
+
+        _hello = await response.Content.ReadAsStringAsync();
+    }
+
+    public class PostLoginModel
+    {
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+        public bool UseCookies { get; set; }
+        public bool UseSessionCookies { get; set; }
+    }
+}

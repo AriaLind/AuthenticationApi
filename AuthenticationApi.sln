@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationApi", "AuthenticationApi\AuthenticationApi.csproj", "{BA9D794F-6854-40C9-B66D-81E212410B45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor", "Blazor\Blazor.csproj", "{5EC23CEF-D8A3-456B-802E-63B30FADC6CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA9D794F-6854-40C9-B66D-81E212410B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9D794F-6854-40C9-B66D-81E212410B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9D794F-6854-40C9-B66D-81E212410B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9D794F-6854-40C9-B66D-81E212410B45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EC23CEF-D8A3-456B-802E-63B30FADC6CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EC23CEF-D8A3-456B-802E-63B30FADC6CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EC23CEF-D8A3-456B-802E-63B30FADC6CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC23CEF-D8A3-456B-802E-63B30FADC6CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3949B3B1-F295-4A3D-BFC0-7C982168EE8A}
+	EndGlobalSection
+EndGlobal
