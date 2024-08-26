@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using AuthenticationApi.Database;
 using Blazor.Components;
+using Blazor.Middleware;
 using Blazor.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -57,5 +58,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.UseMiddleware<TokenValidationMiddleware>();
 
 app.Run();
