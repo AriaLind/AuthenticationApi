@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+@using Blazor.Services
 
 @inject NavigationManager NavigationManager
+@inject NavigationInterceptor NavigationInterceptor
 
 <Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
@@ -12,6 +14,8 @@
                 }
             </NotAuthorized>
         </AuthorizeRouteView>
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
     </Found>
 </Router>
+
+

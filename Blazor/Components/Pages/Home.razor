@@ -4,6 +4,7 @@
 @using AuthenticationApi.Database
 @inject AuthenticationManager AuthenticationManager
 @inject IHttpClientFactory HttpClientFactory
+@inject IJSRuntime JSRuntime
 
 
 <EditForm Model="LoginModel" FormName="LoginModel" OnValidSubmit="@Login">
@@ -37,6 +38,7 @@
 
 @code {
 
+
     public PostLoginModel LoginModel { get; set; } = new ();
     private Token? _token;
     private string _hello = "Not authorized";
@@ -44,6 +46,8 @@
     private async Task Login()
     {
         _token = await AuthenticationManager.LogInAsync(LoginModel.Email, LoginModel.Password, LoginModel.UseCookies, LoginModel.UseSessionCookies);
+        await JSRuntime.InvokeVoidAsync("setCookie", "IdentityCookie", $"{_token.AccessToken}", $"{_token.ExpiresIn}");
+        // await JSRuntime.InvokeVoidAsync("storeToken", _token.AccessToken);
     }
 
     private async Task Logout()
@@ -70,3 +74,20 @@
         public bool UseSessionCookies { get; set; }
     }
 }
+
+<script>
+    function setCookie(name, value, seconds) {
+        let expires = "";
+        if (seconds) {
+            const date = new Date();
+            date.setTime(date.getTime() + (seconds));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=None";
+    }
+
+    // Example usage
+    function storeToken(token) {
+        setCookie('jwtToken', token, 1); // Store the token in a cookie that expires in 1 day
+    }
+</script>
