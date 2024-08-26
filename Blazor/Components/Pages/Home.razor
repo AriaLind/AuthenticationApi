@@ -1,8 +1,6 @@
 ﻿@page "/"
 @using Blazor.Services
-@using Microsoft.AspNetCore.Identity
-@using AuthenticationApi.Database
-@using Microsoft.IdentityModel.Tokens
+@using System.Net.Http.Headers
 @inject AuthenticationManager AuthenticationManager
 @inject IHttpClientFactory HttpClientFactory
 @inject IJSRuntime JSRuntime
@@ -23,15 +21,16 @@
 
 @if (_token is not null)
 {
-    <p>Token: @_token.Id</p>
+    <p>Token: @_token.AccessToken</p>
     <br />
-    <p>Expires in: @_token.ValidFrom</p>
+    <p>Expires in: @_token.ExpiresIn</p>
     <br />
-    <p>Refresh token: @_token.ValidTo</p>
+    <p>Refresh token: @_token.RefreshToken</p>
     <br />
-    <p>Type: @_token.Issuer</p>
+    <p>Type: @_token.TokenType</p>
     <br />
 }
+<button @onclick="RefreshToken">Refresh Token></button>
 
 <br/>
 <button @onclick="HelloWorld">Hello World></button>
@@ -41,7 +40,7 @@
 
 
     public PostLoginModel LoginModel { get; set; } = new ();
-    private SecurityToken? _token;
+    private Token? _token;
     private string _hello = "Not authorized";
 
     private async Task Login()
@@ -61,10 +60,20 @@
     private async Task HelloWorld()
     {
         var client = HttpClientFactory.CreateClient("Auth");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.AccessToken);
 
         var response = await client.GetAsync("api/hello-world");
 
         _hello = await response.Content.ReadAsStringAsync();
+    }
+
+    private async Task RefreshToken()
+    {
+        var client = HttpClientFactory.CreateClient("Auth");
+
+        var response = await client.PostAsJsonAsync("/refresh", new { RefreshToken = _token.RefreshToken });
+
+        var newToken = await response.Content.ReadFromJsonAsync<Token>();
     }
 
     public class PostLoginModel

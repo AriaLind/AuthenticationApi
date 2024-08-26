@@ -31,10 +31,12 @@ function onRouteChange() {
     // Log the value of the cookie or a message if not found
     if (cookieValue) {
         console.log(`Value of ${cookieName}:`, cookieValue);
+        return cookieValue;
     } else {
         console.log(`Cookie with name ${cookieName} not found.`);
     }
 
     // Optionally log all cookies for debugging purposes
     console.log('All cookies:', document.cookie);
+
 }

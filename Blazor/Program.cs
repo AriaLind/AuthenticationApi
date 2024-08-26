@@ -1,13 +1,8 @@
 using System.Net;
 using System.Net.Http.Headers;
-using System.Text;
-using AuthenticationApi.Database;
 using Blazor.Components;
-using Blazor.Middleware;
 using Blazor.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using AuthenticationManager = Blazor.Services.AuthenticationManager;
 
@@ -16,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 
 builder.Services.AddAuthentication();
 
@@ -58,7 +57,5 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-
-app.UseMiddleware<TokenValidationMiddleware>();
 
 app.Run();

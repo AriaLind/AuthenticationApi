@@ -6,6 +6,6 @@ public static class HelloWorldEndpoints
     {
         var endpoints = routes.MapGroup("api/hello-world");
 
-        endpoints.MapGet("/", () => "Hello World").RequireAuthorization();
+        endpoints.MapGet("/", () => "Hello World");
     }
 }

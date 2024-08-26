@@ -1,7 +1,4 @@
-﻿using AuthenticationApi.Database;
-using Microsoft.AspNetCore.Identity;
-
-namespace AuthenticationApi.Endpoints;
+﻿namespace AuthenticationApi.Endpoints;
 
 public static class AccountEndpoints
 {
