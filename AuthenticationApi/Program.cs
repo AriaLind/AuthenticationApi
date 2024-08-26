@@ -3,6 +3,7 @@ using System.Text;
 using AuthenticationApi;
 using AuthenticationApi.Database;
 using AuthenticationApi.Endpoints;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
