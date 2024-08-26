@@ -2,6 +2,7 @@
 @using Blazor.Services
 @using Microsoft.AspNetCore.Identity
 @using AuthenticationApi.Database
+@using Microsoft.IdentityModel.Tokens
 @inject AuthenticationManager AuthenticationManager
 @inject IHttpClientFactory HttpClientFactory
 
@@ -21,13 +22,13 @@
 
 @if (_token is not null)
 {
-    <p>Token: @_token.AccessToken</p>
+    <p>Token: @_token.Id</p>
     <br />
-    <p>Expires in: @_token.ExpiresIn</p>
+    <p>Expires in: @_token.ValidFrom</p>
     <br />
-    <p>Refresh token: @_token.RefreshToken</p>
+    <p>Refresh token: @_token.ValidTo</p>
     <br />
-    <p>Type: @_token.TokenType</p>
+    <p>Type: @_token.Issuer</p>
     <br />
 }
 
@@ -38,7 +39,7 @@
 @code {
 
     public PostLoginModel LoginModel { get; set; } = new ();
-    private Token? _token;
+    private SecurityToken? _token;
     private string _hello = "Not authorized";
 
     private async Task Login()

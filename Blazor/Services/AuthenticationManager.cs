@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using TokenHandler = Blazor.Handlers.TokenHandler;
 
 namespace Blazor.Services;
 
@@ -9,7 +11,7 @@ public class AuthenticationManager(IHttpClientFactory httpClientFactory, UserSer
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("Auth");
 
-    public async Task<Token?> LogInAsync(string email, string password, bool useCookies, bool useSessionCookies)
+    public async Task<SecurityToken?> LogInAsync(string email, string password, bool useCookies, bool useSessionCookies)
     {
         var response = await _httpClient.PostAsJsonAsync($"login?useCookies={useCookies}&useSessionCookies={useSessionCookies}", new { email, password });
 
@@ -20,7 +22,9 @@ public class AuthenticationManager(IHttpClientFactory httpClientFactory, UserSer
 
         var json = await response.Content.ReadAsStringAsync();
 
-        var token = JsonConvert.DeserializeObject<Token>(json);
+        var token = JsonConvert.DeserializeObject<SecurityToken>(json);
+
+        TokenHandler.SecurityToken = token;
 
         var name = new ClaimsIdentity(new List<Claim>
         {
