@@ -6,17 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policyBuilder =>
-    {
-        policyBuilder.WithOrigins("https://localhost:7027") // Use the Blazor app's base address here
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials(); // Allow credentials (cookies)
-    });
-});
-
 // Add services to the container.
 builder.Services.AddSwaggerGen();
 
@@ -25,16 +14,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = IdentityConstants.BearerScheme;
-    })
-    .AddBearerToken(IdentityConstants.BearerScheme);
+    });
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentityApiEndpoints<User>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddApiEndpoints()
-    .AddDefaultTokenProviders()
-    .AddSignInManager();
+    .AddSignInManager()
+    .AddRoleManager<RoleManager<IdentityRole>>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddDbContext<ApplicationDbContext>(    
     options =>
@@ -57,5 +46,6 @@ app.UseAuthorization();
 app.MapIdentityApi<User>();
 app.MapHelloWorldEndpoints();
 app.MapAccountEndpoints();
+app.MapGetHelloWorld();
 
 app.Run();
