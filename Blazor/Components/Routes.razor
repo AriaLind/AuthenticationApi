@@ -3,7 +3,7 @@
 @using Blazor.Services
 
 @inject NavigationManager NavigationManager
-@inject NavigationInterceptor NavigationInterceptor
+@inject UserActionInterceptor UserActionInterceptor
 
 <Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">

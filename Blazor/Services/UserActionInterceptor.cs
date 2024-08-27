@@ -4,11 +4,11 @@ using Microsoft.JSInterop;
 
 namespace Blazor.Services;
 
-public class NavigationInterceptor(IJSRuntime jsRuntime)
+public class UserActionInterceptor(IJSRuntime jsRuntime)
 {
     public async Task OnNavigateAsync()
     {
-        var test = await jsRuntime.InvokeAsync<string>("onRouteChange");
+        var test = await jsRuntime.InvokeAsync<string>("onUserAction");
 
 
     }

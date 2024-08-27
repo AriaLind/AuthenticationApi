@@ -34,7 +34,7 @@ builder.Services.AddHttpClient("Auth", client =>
 builder.Services.AddScoped<AuthenticationManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<NavigationInterceptor>();
+builder.Services.AddScoped<UserActionInterceptor>();
 
 
 var app = builder.Build();

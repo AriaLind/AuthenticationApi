@@ -23,7 +23,7 @@
 /**
  * Function to handle route changes and log specific cookie values.
  */
-function onRouteChange() {
+function onUserAction() {
     // Get the value of the specific cookie by name
     const cookieName = 'IdentityCookie'; // Change this to the name of your cookie
     const cookieValue = getCookie(cookieName);

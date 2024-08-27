@@ -1,7 +1,7 @@
 ﻿@using Blazor.Services
 @inherits LayoutComponentBase
 
-@inject NavigationInterceptor NavigationInterceptor
+@inject UserActionInterceptor UserActionInterceptor
 
 @Body
 
@@ -15,6 +15,6 @@
 {
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await NavigationInterceptor.OnNavigateAsync();
+        await UserActionInterceptor.OnNavigateAsync();
     }
 }
